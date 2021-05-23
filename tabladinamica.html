@@ -17,15 +17,39 @@
     </style>
     
     <script>
-        function crearFila(){
-            let tableRef = document.getElementById("mytab");
-            let newRow = tableRef.insertRow(-1);
-            let newCell = newRow.insertCell(0);
-            let newCell = newRow.insertCell(1);
-            let newCell = newRow.insertCell(2);
+        function agregarFila(tableID, nombreID, correoID, comentID){
+            var table = document.getElementById(tableID);
+            var nombre = document.getElementById(nombreID).value;
+            var correo = document.getElementById(correoID).value;
+            var coment = document.getElementById(comentID).value;
+            var newRow = table.insertRow(-1);
             
-            let newText = document.createTextNode('New bottom row');
-            newCell.appendChild(newText);
+            var cell1 = newRow.insertCell(0);
+            var element1 = document.createElement("input");
+            element1.type = "checkbox";
+			      cell1.appendChild(element1);
+
+            var cell2 = newRow.insertCell(1);
+            cell2.innerHTML = nombre;
+
+            var cell3 = newRow.insertCell(2);
+            cell3.innerHTML = correo;
+
+            var cell4 = newRow.insertCell(3);
+            cell4.innerHTML = coment;
+        }
+        function eliminarFila(tableID){
+            var table= document.getElementById(tableID);
+            var rowCount = table.rows.length;
+            for(var i=0; i<rowCount; i++){
+                var row = table.rows[i];
+                var chkbox = row.cells[0].childNodes[0];
+                if(null != chkbox && true == chkbox.checked){
+                    table.deleteRow(i);
+                    rowCount --;
+                    i--;
+                 }
+              }
         }
     </script>
 </head>
@@ -35,7 +59,7 @@
         <input type="text" id="nombre" placeholder="Nombre"/><br/>
         <input type="text" id="correo" placeholder="Correo"/><br/>
         <input type="text" id="coment" placeholder="Comentario"/><br/>
-        <input type="button" value="Agregar" onclick="crearFila"/>
+        <input type="button" value="Agregar Fila" onclick="agregarFila('mytab','nombre','correo','coment')"/>
     </form>
     <table class="tg" id="mytab">
         <thead>
@@ -48,13 +72,13 @@
         </thead>
         <tbody>
           <tr>
-            <td class="tg-0lax"><input type="checkbox" name="hola" id=""></td>
+            <td class="tg-0lax"><input type="checkbox" id="seleccionado"></td>
             <td class="tg-0lax">Stephen King</td>
-            <td class="tg-0lax">stepehn@king.com</td>
-            <td class="tg-0lax">excelente escritor?</td>
+            <td class="tg-0lax">stefan@king.com</td>
+            <td class="tg-0lax">Muy descriptivo, me dio sueño!</td>
           </tr>
         </tbody>
     </table>
-    <input type="button" id="eliminar" value="Borrar Seleccion" onclick="eliminarFila()"/>
+    <input type="button" value="Eliminar Fila" onclick="eliminarFila('mytab','nombre','correo','coment')"/>
 </body>
 </html>
