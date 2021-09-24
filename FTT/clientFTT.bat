@@ -1,2 +1,0 @@
-python clientFlip.py
-PAUSE
