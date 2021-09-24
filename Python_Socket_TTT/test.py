@@ -10,7 +10,8 @@ buttons = []
 
 
 window.title("Welcome player 1 to the game Flip Tac Toe")
-window.geometry("500x500")
+window.geometry("400x200")
+window.eval('tk::PlaceWindow . center')
 
 lbl = Label(window, text="Flip Tac Toe Game", font=('Helvetica', '15'))
 lbl.grid(row=0, column=0)
@@ -22,12 +23,11 @@ lbl.grid(row=2, column=0)
 
 x = 0
 for i in range(3):
-    for j in range(3):
+    for j in range(1,4):
         b = Button(window, bg="white", fg="black", width=3, height=1, font=(
             'Helvetica', '20'))#, command=lambda x=x: clicked(x))
         b.grid(row=i, column=j)
         buttons.append(b)
         x += 1
-
 
 window.mainloop()

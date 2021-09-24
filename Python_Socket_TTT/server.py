@@ -5,13 +5,11 @@ from tkinter import *
 from tkinter import messagebox
 import tkinter
 
-
 # Window and game variables
 window = Tk()
 buttons = []
-cell = ""
+cell = 0
 turn = True
-
 
 # Socket server variables
 host = '127.0.0.1'
@@ -26,12 +24,10 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind((host, port))
 sock.listen(1)
 
-
 def create_thread(targett):
     thread = threading.Thread(target=targett)
     thread.daemon = True
     thread.start()
-
 
 def recieveData():
     global cell
@@ -40,12 +36,10 @@ def recieveData():
         data, addr = conn.recvfrom(1024)
         data2 = data.decode()
         dataa = data2.split('-')
-        cell = dataa[0]
+        cell = int(dataa[0])
         update()
         if dataa[1] == 'YourTurn':
             turn = True
-            #print("server turn = " + str(turn))
-
 
 # Function to make sure
 def update():
@@ -54,7 +48,6 @@ def update():
     else:
         print("No matching cell")
 
-
 def waiting4connection():
     print("Thread created")
     global conn, addr
@@ -62,14 +55,11 @@ def waiting4connection():
     print("Client is connected")
     recieveData()
 
-
 create_thread(waiting4connection)
 
-
-########################
 # Window config
 window.title("Welcome player 1 to the game Flip Tac Toe")
-window.geometry("500x500")
+window.geometry("400x200")
 
 lbl = Label(window, text="Flip Tac Toe Game", font=('Helvetica', '15'))
 lbl.grid(row=0, column=0)
@@ -77,7 +67,6 @@ lbl = Label(window, text="Player 1: X", font=('Helvetica', '10'))
 lbl.grid(row=1, column=0)
 lbl = Label(window, text="Player 2: O", font=('Helvetica', '10'))
 lbl.grid(row=2, column=0)
-
 
 # Function to print X or O in case of button clicked
 def clicked(i):
@@ -87,7 +76,6 @@ def clicked(i):
         buttons[i]['text'] = "X"
         send_data = '{}-{}'.format(i, 'YourTurn').encode()
         conn.send(send_data)
-        # print(send_data)
         turn = False
         check()
     elif turn == False and buttons[i]['text'] == "" and cell == i:
@@ -98,12 +86,11 @@ def clicked(i):
 
 # Function to check if the game is over
 flag = 1
-
-
 def check():
     winCond = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
                [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
-    flag = + 1
+    global flag
+    flag += 1
     for x in winCond:
         w1, w2, w3 = x
         if (buttons[w1]['text'] == buttons[w2]['text'] == buttons[w3]['text']) and (buttons[w1]['text'] == "X" or buttons[w1]['text'] == "O"):
@@ -117,6 +104,7 @@ def win(player):
     ans = "Game complete, player " + player + " wins"
     messagebox.showinfo("Congratulations!", ans)
     window.destroy()
+    
 # Restart or Quit function
 #
 #
@@ -125,7 +113,7 @@ def win(player):
 # Loop to create buttons
 x = 0
 for i in range(3):
-    for j in range(3):
+    for j in range(1,4):
         b = Button(window, bg="white", fg="black", width=3, height=1, font=('Helvetica', '20'), command=lambda x=x: clicked(x))
         b.grid(row=i, column=j)
         buttons.append(b)
