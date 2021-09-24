@@ -10,7 +10,7 @@ window=Tk()
 cell = ""
 turn = True
 
-host = '127.0.0.1'
+host = '10.90.90.93'
 port = 65535
 
 conn, addr = None, None
@@ -158,7 +158,6 @@ def clicked5():
 def clicked6():
     global turn
     global cell
-                            btn[i]
 
     if turn == True and btn6["text"] == "":
         btn6["text"] = "X"

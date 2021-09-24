@@ -9,8 +9,8 @@ window=Tk()
 cell = ""
 turn = False
 
-host = '127.0.0.1'
-port = 65535
+host = '10.90.90.93'
+port = 8080
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((host,port))
@@ -63,8 +63,8 @@ create_thread(recieveData)
 window.title("Welcome player 2 to the game Flip Tac Toe")
 window.geometry("400x300")
 
-host = '127.0.0.2'
-port = 65432
+#host = '10.90.90.93'
+#port = 65432
 
 lbl = Label(window, text="Flip Tac Toe Game", font=('Helvetica', '15'))
 lbl.grid(row=0, column=0)

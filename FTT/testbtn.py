@@ -12,16 +12,16 @@ buttons = []
 # FALTA HACER QUE AL PRESIONAR EL BOTÓN, ÉSTE CAMBIE POR X u O
 
 def clicked(i):
-    buttons[i]['text']='a'
+    buttons[i]['text']='X'
+    print(i)
 
-global x
 x=0
 for i in range (3):
     for j in range (3):
-        b = Button(win, bg="white", fg="black", width=3, height=1, font=('Helvetica', '20'), command=clicked(x))
-        x=x+1
+        b = Button(win, bg="white", fg="black", width=3, height=1, font=('Helvetica', '20'), command= lambda x=x :clicked(x))
         b.grid(row=i, column=j)
         buttons.append(b)
+        x+=1
 
 
 

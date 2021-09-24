@@ -1,0 +1,2 @@
+python serverFlip.py
+PAUSE
