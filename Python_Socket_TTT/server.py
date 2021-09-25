@@ -87,7 +87,7 @@ def clicked(i):
 
 
 # Function to check if the game is over
-flag = 1
+flag = 0
 def check():
     winCond = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
                [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
@@ -98,19 +98,15 @@ def check():
         if (buttons[w1]['text'] == buttons[w2]['text'] == buttons[w3]['text']) and (buttons[w1]['text'] == "X" or buttons[w1]['text'] == "O"):
             win(buttons[w1]['text'])
     if flag == 9:
-        messagebox.showinfo("Tie", "Match Tied! Try again")
-        c = messagebox.askyesno(message="¿try Again?", title="Second Chance")
-        if(c == True):
+        if(messagebox.askyesno(message="Match tied! try Again?", title="Second Chance")):
             restart()
         else:
             window.destroy()
 
 # Function to tell which player won
 def win(player):
-    ans = "Game complete, player " + player + " wins"
-    messagebox.showinfo("Congratulations!", ans)
-    c = messagebox.askyesno(message="¿try Again?", title="Second Chance")
-    if(c == True):
+    ans = " player " + player + " wins"
+    if(messagebox.askyesno(message= "Congratulations!" + ans + ", Play again?", title="Play again")):
         restart()
     else:
         window.destroy()
