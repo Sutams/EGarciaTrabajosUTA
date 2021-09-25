@@ -4,6 +4,8 @@ import threading
 from tkinter import *
 from tkinter import messagebox
 import tkinter
+import sys
+import os
 
 # Window and game variables
 window = Tk()
@@ -84,18 +86,30 @@ def check():
         w1, w2, w3 = x
         if (buttons[w1]['text'] == buttons[w2]['text'] == buttons[w3]['text']) and (buttons[w1]['text'] == "X" or buttons[w1]['text'] == "O"):
             win(buttons[w1]['text'])
-    if flag == 10:
+    if flag == 9:
         messagebox.showinfo("Tie", "Match Tied! Try again")
-        window.destroy()
+        c = messagebox.askyesno(message="¿try Again?", title="Second Chance")
+        if(c == True):
+            restart()
+        else:
+            window.destroy()
 
 # Function to tell which player won
 def win(player):
     ans = "Game complete, player " + player + " wins"
     messagebox.showinfo("Congratulations!", ans)
-    window.destroy()
-
+    c = messagebox.askyesno(message="¿try Again?", title="Second Chance")
+    if(c == True):
+        restart()
+    else:
+        window.destroy()
+    
 # Restart or Quit function
-#
+def restart():
+    for i in range(9):
+      buttons[i]['text'] = ""
+    global flag
+    flag = 0 
 #
 #
 
