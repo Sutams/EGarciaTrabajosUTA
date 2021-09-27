@@ -4,13 +4,11 @@ import threading
 from tkinter import *
 from tkinter import messagebox
 import tkinter
-import sys
-import os
 
 # Window and game variables
 window = Tk()
 buttons = []
-cell = 0
+cell = 10
 turn = True
 
 # Socket server variables
@@ -74,29 +72,30 @@ lbl.grid(row=2, column=0)
 def clicked(i):
     global turn
     global cell
-    if turn == True and buttons[i]['text'] == "":
+    if turn == True and (buttons[i]['text'] == "" or buttons[i]['text'] == "O"):
         buttons[i]['text'] = "X"
         send_data = '{}-{}'.format(i, 'YourTurn').encode()
         conn.send(send_data)
         turn = False
         check()
-    elif turn == False and buttons[i]['text'] == "" and cell == i:
+    elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "X")  and cell == i:
         buttons[i]['text'] = "O"
         turn = True
         check()
 
 
 # Function to check if the game is over
-flag = 0
 def check():
     winCond = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
                [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
-    global flag
-    flag += 1
     for x in winCond:
         w1, w2, w3 = x
         if (buttons[w1]['text'] == buttons[w2]['text'] == buttons[w3]['text']) and (buttons[w1]['text'] == "X" or buttons[w1]['text'] == "O"):
             win(buttons[w1]['text'])
+    flag = 0
+    for i in range(9):
+        if buttons[i]['text'] != "":
+            flag += 1
     if flag == 9:
         if(messagebox.askyesno(message="Match tied! try Again?", title="Second Chance")):
             restart()
@@ -113,12 +112,12 @@ def win(player):
     
 # Restart or Quit function
 def restart():
+    global cell
+    global turn
+    cell = 10
+    turn = False
     for i in range(9):
-      buttons[i]['text'] = ""
-    global flag
-    flag = 0
-#
-#
+        buttons[i]['text'] = ""
 
 # Loop to create buttons
 x = 0
