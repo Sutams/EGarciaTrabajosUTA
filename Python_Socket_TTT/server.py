@@ -44,7 +44,6 @@ def recieveData():
         if dataa[1] == 'YourTurn':
             turn = True
 
-
 # Para estar seguro
 def update():
     if cell >= 0 and cell <= 8:

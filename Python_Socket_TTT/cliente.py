@@ -68,9 +68,9 @@ label.pack(fill="none", expand="no",pady=5,padx=8)
 
 lbl = Label(label, bg="#bec4fa", text="Tic Tac Toe",fg="#0a1685", font=('Helvetica', '17',"bold"))
 lbl.grid(row=0, column=0)
-lbl = Label(label,bg="#bec4fa", text="Jugador 1: X", fg="#0a1685",font=('Helvetica', '10'))
+lbl = Label(label,bg="#bec4fa", text="Jugador 1: X", fg="#0a1685",font=('Helvetica', '15'))
 lbl.grid(row=1, column=0)
-lbl = Label(label,bg="#bec4fa", text="Jugador 2: O", fg="#0a1685",font=('Helvetica', '10'))
+lbl = Label(label,bg="#bec4fa", text="Jugador 2: O", fg="#0a1685",font=('Helvetica', '15'))
 lbl.grid(row=2, column=0)
 
 # Funcion que imprime X u O dependiendo del boton presionado
