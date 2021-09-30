@@ -11,6 +11,7 @@ window = Tk()
 buttons = []
 cell = 10
 turn = True
+flip = False
 
 # Socket server variables
 host = '127.0.0.1'
@@ -41,6 +42,8 @@ def recieveData():
         update()
         if dataa[1] == 'YourTurn':
             turn = True
+        else:
+            turn = False
 
 # Function to make sure
 def update():
@@ -64,6 +67,7 @@ window.geometry("410x310")
 window.resizable(width=False,height=False)
 
 img=PhotoImage(file="gato2.png")
+
 lbiamgen = Label(window,image = img).place(x=-10,y=-10)
 label=LabelFrame(window, text="",background="#fabfbe")
 label.pack(fill="none", expand="no",pady=5,padx=8)
@@ -72,6 +76,7 @@ label.pack(fill="none", expand="no",pady=5,padx=8)
 lbl = Label(label, background="#fabfbe",text="Flip Tac Toe Game",fg="#62100f", font=('Helvetica', '17',"bold"))
 lbl.grid(row=0, column=0)
 lbl = Label(label, background="#fabfbe",text="Player 1: X", fg="#62100f",font=('Helvetica', '15'))
+
 lbl.grid(row=1, column=0)
 lbl = Label(label, background="#fabfbe",text="Player 2: O", fg="#62100f",font=('Helvetica', '15'))
 lbl.grid(row=2, column=0)
@@ -80,17 +85,31 @@ lbl.grid(row=2, column=0)
 def clicked(i):
     global turn
     global cell
-    if turn == True and (buttons[i]['text'] == "" or buttons[i]['text'] == "O"):
-        buttons[i]['text'] = "X"
-        send_data = '{}-{}'.format(i, 'YourTurn').encode()
-        conn.send(send_data)
-        turn = False
-        check()
-    elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "X")  and cell == i:
-        buttons[i]['text'] = "O"
-        turn = True
-        check()
+    global flip
+    if flip:
+        if turn == True and (buttons[i]['text'] == "" or buttons[i]['text'] == "O"):
+            buttons[i]['text'] = "X"
+            send_data = '{}-{}'.format(i, 'YourTurn').encode()
+            conn.send(send_data)
+            turn = False
+            check()
+        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "X")  and cell == i:
+            buttons[i]['text'] = "O"
+            turn = True
+            check()
+    else:
+        if turn == True and buttons[i]['text'] == "":
+            buttons[i]['text'] = "X"
+            send_data = '{}-{}'.format(i, 'YourTurn').encode()
+            conn.send(send_data)
+            turn = False
+            check()
+        elif turn == False and buttons[i]['text'] == "" and cell == i:
+            buttons[i]['text'] = "O"
+            turn = True
+            check()
 
+    
 
 # Function to check if the game is over
 def check():
@@ -121,11 +140,15 @@ def win(player):
 # Restart or Quit function
 def restart():
     global cell
-    global turn
     cell = 10
-    turn = False
     for i in range(9):
         buttons[i]['text'] = ""
+
+#Ask mode
+if(messagebox.askyesno(message= "Quieres jugar el modo Flip?", title="Change mode")):
+    flip=True
+else:
+    flip=False
 
 # Loop to create buttons
 x = 0
