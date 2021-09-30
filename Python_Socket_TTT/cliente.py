@@ -10,6 +10,7 @@ window = Tk()
 buttons = []
 cell = 10
 turn = False
+flip = False
 
 # Socket server variables
 host = '127.0.0.1'
@@ -44,6 +45,8 @@ def recieveData():
         update()
         if dataa[1] == 'YourTurn':
             turn = True
+        else:
+            turn = False
 
 create_thread(recieveData)
 
@@ -62,16 +65,29 @@ lbl.grid(row=2, column=0)
 def clicked(i):
     global turn
     global cell
-    if turn == True and (buttons[i]['text'] == "" or buttons[i]['text'] == "X"):
-        buttons[i]['text'] = "O"
-        send_data = '{}-{}'.format(i, 'YourTurn').encode()
-        sock.send(send_data)
-        turn = False
-        check()
-    elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "O") and cell == i:
-        buttons[i]['text'] = "X"
-        turn = True
-        check()
+    global flip
+    if flip:
+        if turn == True and (buttons[i]['text'] == "" or buttons[i]['text'] == "X"):
+            buttons[i]['text'] = "O"
+            send_data = '{}-{}'.format(i, 'YourTurn').encode()
+            sock.send(send_data)
+            turn = False
+            check()
+        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "O")  and cell == i:
+            buttons[i]['text'] = "X"
+            turn = True
+            check()
+    else:
+        if turn == True and buttons[i]['text'] == "":
+            buttons[i]['text'] = "O"
+            send_data = '{}-{}'.format(i, 'YourTurn').encode()
+            sock.send(send_data)
+            turn = False
+            check()
+        elif turn == False and buttons[i]['text'] == "" and cell == i:
+            buttons[i]['text'] = "X"
+            turn = True
+            check()
 
 # Function to check if the game is over
 def check():
@@ -102,9 +118,7 @@ def win(player):
 # Restart or Quit function
 def restart():
     global cell
-    global turn
     cell = 10
-    turn = True
     for i in range(9):
         buttons[i]['text'] = ""
 
