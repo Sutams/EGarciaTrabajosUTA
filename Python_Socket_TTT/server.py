@@ -1,3 +1,4 @@
+from ctypes import sizeof
 import socket
 import threading
 
@@ -59,15 +60,20 @@ create_thread(waiting4connection)
 
 # Window config
 window.title("Welcome player 1 to the game Flip Tac Toe")
-window.geometry("400x300")
+window.geometry("410x310")
+window.resizable(width=False,height=False)
 
 img=PhotoImage(file="gato2.png")
 lbiamgen = Label(window,image = img).place(x=-10,y=-10)
-lbl = Label(window, text="Flip Tac Toe Game", font=('Helvetica', '15'))
+label=LabelFrame(window, text="",background="#fabfbe")
+label.pack(fill="none", expand="no",pady=5,padx=8)
+
+
+lbl = Label(label, background="#fabfbe",text="Flip Tac Toe Game",fg="#62100f", font=('Helvetica', '17',"bold"))
 lbl.grid(row=0, column=0)
-lbl = Label(window, text="Player 1: X", font=('Helvetica', '10'))
+lbl = Label(label, background="#fabfbe",text="Player 1: X", fg="#62100f",font=('Helvetica', '15'))
 lbl.grid(row=1, column=0)
-lbl = Label(window, text="Player 2: O", font=('Helvetica', '10'))
+lbl = Label(label, background="#fabfbe",text="Player 2: O", fg="#62100f",font=('Helvetica', '15'))
 lbl.grid(row=2, column=0)
 
 # Function to print X or O in case of button clicked
@@ -123,11 +129,15 @@ def restart():
 
 # Loop to create buttons
 x = 0
+
+
 for i in range(3):
     for j in range(1,4):
-        b = Button(window, bg="white", fg="black", width=3, height=1, font=('Helvetica', '20'), command=lambda x=x: clicked(x))
+        
+        b = Button(label, fg="black", width=3, height=1,bg="#fde8e7",activebackground="#fe7876", font=('Helvetica', '20',"bold"), command=lambda x=x: clicked(x))
         b.grid(row=i, column=j)
         buttons.append(b)
         x += 1
+
 
 window.mainloop()
