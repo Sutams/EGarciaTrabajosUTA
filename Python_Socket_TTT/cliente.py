@@ -80,7 +80,7 @@ def clicked(i):
             sock.send(send_data)
             turn = False
             check()
-        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "O")  and cell == i:
+        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "X")  and cell == i:
             buttons[i]['text'] = "X"
             turn = True
             check()
@@ -95,6 +95,7 @@ def clicked(i):
             buttons[i]['text'] = "X"
             turn = True
             check()
+    print(turn)
 
 # Function to check if the game is over
 def check():

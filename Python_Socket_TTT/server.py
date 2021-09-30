@@ -93,7 +93,7 @@ def clicked(i):
             conn.send(send_data)
             turn = False
             check()
-        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "X")  and cell == i:
+        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "O")  and cell == i:
             buttons[i]['text'] = "O"
             turn = True
             check()
@@ -108,6 +108,7 @@ def clicked(i):
             buttons[i]['text'] = "O"
             turn = True
             check()
+    print(turn)
 
     
 
