@@ -5,36 +5,36 @@ from tkinter import *
 from tkinter import messagebox
 import tkinter
 
-# Window and game variables
+# Variables del juego y la interfaz
 window = Tk()
 buttons = []
 cell = 10
 turn = False
+# Verdadero significa modo Flip
 gamemode = False
 
-# Socket server variables
+# Variables del servidor socket
 host = '127.0.0.1'
 port = 65535
-# For LAN connection use the following
+# Para la conexion LAN utilizar
 # host = '10.90.90.93'
 # port = 65535
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#sock.connect((host, port))
 connected = False
 while not connected:
     try:
         sock.connect((host,port))
         connected = True
     except Exception as e:
-        pass #Do nothing, just try again
+        pass
 
-# Function to make sure
+# Para estar seguro
 def update():
     if cell >= 0 and cell <= 8:
         clicked(cell)
     else:
-        print("No matching cell")
+        print("No se encontró la celda")
 
 def create_thread(targett):
     thread = threading.Thread(target=targett)
@@ -55,8 +55,8 @@ def recieveData():
 
 create_thread(recieveData)
 
-# Window config
-window.title("Welcome player 2 to the game Flip Tac Toe")
+# Configuracion de la ventana
+window.title("Bienvenido jugador 2 al juego de Tic Tac Toe")
 window.geometry("420x320")
 window.resizable(width=False,height=False)
 
@@ -66,14 +66,14 @@ lbiamgen = Label(window,image = img).place(x=-10,y=-10)
 label=LabelFrame(window, text="",background="#bec4fa")
 label.pack(fill="none", expand="no",pady=5,padx=8)
 
-lbl = Label(label, bg="#bec4fa", text="Flip Tac Toe Game",fg="#0a1685", font=('Helvetica', '17',"bold"))
+lbl = Label(label, bg="#bec4fa", text="Tic Tac Toe",fg="#0a1685", font=('Helvetica', '17',"bold"))
 lbl.grid(row=0, column=0)
-lbl = Label(label,bg="#bec4fa", text="Player 1: X", fg="#0a1685",font=('Helvetica', '10'))
+lbl = Label(label,bg="#bec4fa", text="Jugador 1: X", fg="#0a1685",font=('Helvetica', '10'))
 lbl.grid(row=1, column=0)
-lbl = Label(label,bg="#bec4fa", text="Player 2: O", fg="#0a1685",font=('Helvetica', '10'))
+lbl = Label(label,bg="#bec4fa", text="Jugador 2: O", fg="#0a1685",font=('Helvetica', '10'))
 lbl.grid(row=2, column=0)
 
-# Function to print X or O in case of button clicked
+# Funcion que imprime X u O dependiendo del boton presionado
 def clicked(i):
     global turn
     global cell
@@ -101,9 +101,8 @@ def clicked(i):
             buttons[i]['text'] = "X"
             turn = True
             check()
-    print(turn)
 
-# Function to check if the game is over
+# Funcion para comprobar si alguien gano
 def check():
     winCond = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
                [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]    
@@ -121,7 +120,7 @@ def check():
         else:
             window.destroy()
 
-# Function to tell which player won
+# Funcion en caso de victoria
 def win(player):
     ans = " player " + player + " wins"
     if(messagebox.askyesno(message= "Congratulations!" + ans + ", Play again?", title="Play again")):
@@ -129,20 +128,24 @@ def win(player):
     else:
         window.destroy()
     
-# Restart or Quit function
+# Funcion de reinicio
 def restart():
     global cell
     cell = 10
     for i in range(9):
         buttons[i]['text'] = ""
 
-#Ask gamemode
+#Preguntar modo de juego, normal o flip
 if(messagebox.askyesno(message= "Quieres jugar el modo Flip?", title="Change mode")):
+    lbl = Label(label, bg="#bec4fa", text="Flip Tac Toe",fg="#0a1685", font=('Helvetica', '17',"bold"))
+    lbl.grid(row=0, column=0)
     gamemode=True
 else:
+    lbl = Label(label, bg="#bec4fa", text="Tic Tac Toe",fg="#0a1685", font=('Helvetica', '17',"bold"))
+    lbl.grid(row=0, column=0)
     gamemode=False
 
-# Loop to create buttons
+# Ciclo para crear botones
 x = 0
 for i in range(3):
     for j in range(1,4):        
