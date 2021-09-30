@@ -42,8 +42,7 @@ def recieveData():
         update()
         if dataa[1] == 'YourTurn':
             turn = True
-        else:
-            turn = False
+
 
 # Function to make sure
 def update():
@@ -93,7 +92,8 @@ def clicked(i):
             conn.send(send_data)
             turn = False
             check()
-        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "O")  and cell == i:
+            cell = 10 
+        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "X")  and cell == i:
             buttons[i]['text'] = "O"
             turn = True
             check()
@@ -108,7 +108,6 @@ def clicked(i):
             buttons[i]['text'] = "O"
             turn = True
             check()
-    print(turn)
 
     
 

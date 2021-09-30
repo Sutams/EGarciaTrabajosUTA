@@ -10,7 +10,7 @@ window = Tk()
 buttons = []
 cell = 10
 turn = False
-flip = False
+gamemode = False
 
 # Socket server variables
 host = '127.0.0.1'
@@ -20,7 +20,14 @@ port = 65535
 # port = 65535
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((host, port))
+#sock.connect((host, port))
+connected = False
+while not connected:
+    try:
+        sock.connect((host,port))
+        connected = True
+    except Exception as e:
+        pass #Do nothing, just try again
 
 # Function to make sure
 def update():
@@ -45,8 +52,6 @@ def recieveData():
         update()
         if dataa[1] == 'YourTurn':
             turn = True
-        else:
-            turn = False
 
 create_thread(recieveData)
 
@@ -72,15 +77,16 @@ lbl.grid(row=2, column=0)
 def clicked(i):
     global turn
     global cell
-    global flip
-    if flip:
+    global gamemode
+    if gamemode:
         if turn == True and (buttons[i]['text'] == "" or buttons[i]['text'] == "X"):
             buttons[i]['text'] = "O"
             send_data = '{}-{}'.format(i, 'YourTurn').encode()
             sock.send(send_data)
             turn = False
+            cell = 10
             check()
-        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "X")  and cell == i:
+        elif turn == False and (buttons[i]['text'] == "" or buttons[i]['text'] == "O")  and cell == i:
             buttons[i]['text'] = "X"
             turn = True
             check()
@@ -101,8 +107,8 @@ def clicked(i):
 def check():
     winCond = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
                [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]    
-    for x in winCond:
-        w1, w2, w3 = x
+    for item in winCond:
+        w1, w2, w3 = item
         if (buttons[w1]['text'] == buttons[w2]['text'] == buttons[w3]['text']) and (buttons[w1]['text'] == "X" or buttons[w1]['text'] == "O"):
             win(buttons[w1]['text'])
     flag = 0
@@ -130,11 +136,11 @@ def restart():
     for i in range(9):
         buttons[i]['text'] = ""
 
-#Ask mode
+#Ask gamemode
 if(messagebox.askyesno(message= "Quieres jugar el modo Flip?", title="Change mode")):
-    flip=True
+    gamemode=True
 else:
-    flip=False
+    gamemode=False
 
 # Loop to create buttons
 x = 0
