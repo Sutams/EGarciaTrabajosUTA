@@ -122,6 +122,12 @@ def restart():
     for i in range(9):
         buttons[i]['text'] = ""
 
+#Ask mode
+if(messagebox.askyesno(message= "Quieres jugar el modo Flip?", title="Change mode")):
+    flip=True
+else:
+    flip=False
+
 # Loop to create buttons
 x = 0
 for i in range(3):

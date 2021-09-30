@@ -65,9 +65,10 @@ window.title("Welcome player 1 to the game Flip Tac Toe")
 window.geometry("400x300")
 
 img=PhotoImage(file="gato2.png")
+
 lbiamgen = Label(window,image = img).place(x=-10,y=-10)
 lbl = Label(window, text="Flip Tac Toe Game", font=('Helvetica', '15'))
-lbl.grid(row=0, column=0)
+lbl.grid(row=0, column=0, padx=10 ,pady=10)
 lbl = Label(window, text="Player 1: X", font=('Helvetica', '10'))
 lbl.grid(row=1, column=0)
 lbl = Label(window, text="Player 2: O", font=('Helvetica', '10'))
@@ -135,6 +136,12 @@ def restart():
     cell = 10
     for i in range(9):
         buttons[i]['text'] = ""
+
+#Ask mode
+if(messagebox.askyesno(message= "Quieres jugar el modo Flip?", title="Change mode")):
+    flip=True
+else:
+    flip=False
 
 # Loop to create buttons
 x = 0

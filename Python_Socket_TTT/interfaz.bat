@@ -1,0 +1,2 @@
+python interfaz.py
+PAUSE
